@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+.Mui-disabled{
+    @apply bg-[#E9EBF0] border-[#E9EBF0];
+}
