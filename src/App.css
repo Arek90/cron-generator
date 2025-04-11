@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fontsource/inter";
+
 
 @layer base {
     body {

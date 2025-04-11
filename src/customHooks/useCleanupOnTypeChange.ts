@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import { FormValues } from "../types/formValues.ts";
+import { UseFormClearErrors } from "react-hook-form";
 
 type FieldType =
+  | "every"
   | "range"
   | "step"
   | "specificMinute"
@@ -8,7 +11,7 @@ type FieldType =
   | "specificDay"
   | "specificMonth"
   | "specificDayType";
-type ClearErrorsFunction = (name: string) => void;
+type ClearErrorsFunction = UseFormClearErrors<FormValues>;
 
 const useCleanupOnTypeChange = (
   minuteType: FieldType,
@@ -53,7 +56,7 @@ const useCleanupOnTypeChange = (
 
     typeMappings.forEach(({ type, condition, fields }) => {
       if (type !== condition) {
-        fields.forEach((field) => clearErrors(field));
+        fields.forEach((field) => clearErrors(field as keyof FormValues));
       }
     });
   }, [minuteType, hourType, dayType, monthType, weekDayType, clearErrors]);

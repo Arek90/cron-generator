@@ -1,4 +1,5 @@
 type FieldType =
+  | "every"
   | "range"
   | "step"
   | "specificMinute"

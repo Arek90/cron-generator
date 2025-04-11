@@ -7,7 +7,7 @@ type CustomSelectProps = {
   multiple?: true;
   disabled?: boolean;
   name: string;
-  value: number[] | number;
+  value: string | number[] | number;
   onChange: (event: SelectChangeEvent<number[]>) => void;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onClick?: () => void;
@@ -29,7 +29,7 @@ const CustomSelect = ({
 }: CustomSelectProps) => (
   <Select
     name={name}
-    value={value}
+    value={value as number[]}
     onBlur={onBlur}
     onChange={onChange}
     multiple={multiple}
@@ -38,6 +38,7 @@ const CustomSelect = ({
     displayEmpty
     className={`rounded-md ${className}`}
     endAdornment={
+      Array.isArray(value) &&
       value.length !== 0 && (
         <div className="pr-[6px]">
           <IconButton onClick={onClick}>

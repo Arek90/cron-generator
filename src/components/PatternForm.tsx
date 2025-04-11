@@ -10,13 +10,13 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import CustomSelect from "./CustomSelect.tsx";
-import "@fontsource/inter";
 import useCleanupOnTypeChange from "../customHooks/useCleanupOnTypeChange.ts";
 import {
   generateHoursRange,
   generateMinutesRange,
 } from "../utils/rangeGenerators.ts";
 import validateField from "../utils/validateField.ts";
+import { FormValues } from "../types/formValues.ts";
 
 const radioSx = {
   "& .MuiSvgIcon-root": {
@@ -59,29 +59,6 @@ const weekDayOptions = [
   "Sobota",
   "Niedziela",
 ];
-
-type FormValues = {
-  dayType: "every" | "specificDay";
-  selectedDays: number[];
-  monthType: "every" | "specificMonth";
-  selectedMonths: number[];
-  weekDayType: "every" | "specificDayType";
-  selectedWeekDays: number[];
-
-  minuteType: "every" | "range" | "step" | "specificMinute";
-  selectedMinutes: number[];
-  minuteFrom: number | string;
-  minuteTo: number | string;
-  minuteStep: number | string;
-
-  hourType: "every" | "range" | "step" | "specificHour";
-  selectedHours: number[];
-  hourFrom: number | string;
-  hourTo: number | string;
-  hourStep: number | string;
-
-  scheduleInput: string;
-};
 
 interface PatternFormProps {
   onClose: () => void;
@@ -138,7 +115,7 @@ const PatternForm: React.FC<PatternFormProps> = ({ onClose, onSubmit }) => {
 
   const scheduleInput = watch("scheduleInput");
 
-  const handleClear = (fieldName: string) => {
+  const handleClear = (fieldName: keyof FormValues) => {
     const isArrayField = [
       "selectedMinutes",
       "selectedHours",
@@ -228,7 +205,10 @@ const PatternForm: React.FC<PatternFormProps> = ({ onClose, onSubmit }) => {
           ? "*"
           : monthType === "specificMonth"
             ? selectedMonths
-                .map((selectedMonth) => monthOptions.indexOf(selectedMonth) + 1)
+                .map(
+                  (selectedMonth) =>
+                    monthOptions.indexOf(String(selectedMonth)) + 1,
+                )
                 .sort((a, b) => a - b)
                 .join(",")
             : "*";
@@ -240,7 +220,7 @@ const PatternForm: React.FC<PatternFormProps> = ({ onClose, onSubmit }) => {
             ? selectedWeekDays
                 .map(
                   (selectedWeekDay) =>
-                    weekDayOptions.indexOf(selectedWeekDay) + 1,
+                    weekDayOptions.indexOf(String(selectedWeekDay)) + 1,
                 )
                 .sort()
                 .join(",")
@@ -423,6 +403,7 @@ const PatternForm: React.FC<PatternFormProps> = ({ onClose, onSubmit }) => {
                       render={({ field }) => (
                         <CustomSelect
                           {...field}
+                          value={Number(field.value)}
                           disabled={minuteType !== "step"}
                           onClick={() => handleClear(field.name)}
                           className="w-full"
@@ -593,6 +574,7 @@ const PatternForm: React.FC<PatternFormProps> = ({ onClose, onSubmit }) => {
                       render={({ field }) => (
                         <CustomSelect
                           {...field}
+                          value={Number(field.value)}
                           disabled={hourType !== "step"}
                           onClick={() => handleClear(field.name)}
                           className="w-full"

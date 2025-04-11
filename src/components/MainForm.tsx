@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 import { GoChevronDown } from "react-icons/go";
 import { RxPerson } from "react-icons/rx";
 import { PiDotsNine, PiDotsSixVertical } from "react-icons/pi";
-import "@fontsource/inter";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Ccig from "./Ccig.tsx";
 import PatternForm from "./PatternForm.tsx";
@@ -28,8 +27,9 @@ const textFieldSx = {
     "& fieldset": { borderColor: "#E8EBF0" },
     "&:hover fieldset": { borderColor: "#E8EBF0" },
     "&.Mui-focused fieldset": { borderColor: "#E8EBF0" },
+    fontFamily: "Inter",
   },
-  "& .MuiInputLabel-root": { color: "black" },
+  "& .MuiInputLabel-root": { color: "black", fontFamily: "Inter" },
   "& .MuiInputLabel-root.Mui-focused": { color: "black" },
   "& .MuiInputBase-input": {
     height: "12px",
